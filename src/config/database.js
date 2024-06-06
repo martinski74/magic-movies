@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 require('../models/Movie');
 require('../models/Cast');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const connectionString = 'mongodb://127.0.0.1:27017/magic-movies';
+const connectionString = process.env.DATABASE_URL;
 
 async function configDatabase() {
   await mongoose.connect(connectionString);
