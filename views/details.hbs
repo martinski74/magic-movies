@@ -22,8 +22,8 @@
             </div>
             {{#if isAuthor}}
             <div class="details-btn">
-                <button id="edit-button">Edit</button>
-                <button id="delete-button">Delete</button>
+                <a href="/edit/{{_id}}" id="edit-button">Edit</a>
+                <a href="/delete/{{_id}}" id="delete-button">Delete</a>
             </div>
             {{/if}}
         </div>
