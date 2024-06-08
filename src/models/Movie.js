@@ -28,7 +28,7 @@ const movieSchema = new Schema({
     description: {
         type: String,
         required: true,
-        maxLength: 1000
+        maxLength: 1500
     },
     imageURL: {
         type: String,
@@ -39,6 +39,10 @@ const movieSchema = new Schema({
         type: [Types.ObjectId],
         ref: 'Cast',
         default: []
+    },
+    author: {
+        type: Types.ObjectId,
+        ref: 'User'
     }
 });
 

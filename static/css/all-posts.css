@@ -4,7 +4,7 @@
   margin-top: 1em;
 }
 
-#catalog > h1 {
+#catalog>h1 {
   margin-top: 1em;
   margin-bottom: 0.5em;
   font-weight: 700;
@@ -35,7 +35,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   box-shadow: 0 0px 81px #5b848a;
-  background-color: #6d6875;
+  background-color: #6D6875;
   padding-top: 20px;
   padding-bottom: 20px;
   margin-left: 1.5em;
@@ -110,7 +110,7 @@
   height: 450px;
   width: 350px;
   padding: 1em 1em;
-  background: #ffb4a2;
+  background: #FFB4A2;
   border-radius: 10px;
 }
 
@@ -149,7 +149,7 @@ img > .text-shadow {
   font-size: 18px;
   margin-top: 30px;
   margin-left: 10px;
-  background: #b5838d;
+  background: #B5838D;
   border-radius: 12px;
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -169,7 +169,7 @@ img > .text-shadow {
   height: 100px;
   display: block;
   flex-wrap: wrap;
-  background-color: #ce8e7f;
+  background-color: #FFB4A2;
   padding-top: 20px;
   padding-bottom: 20px;
   margin-left: 1em;
