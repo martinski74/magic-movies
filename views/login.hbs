@@ -1,6 +1,8 @@
-{{#if error}}
+{{#if errors}}
 <div class="error-container">
-    <p>{{error}}</p>
+    {{#each errors}}
+    <p>{{this}}</p>
+    {{/each}}
 </div>
 {{/if}}
 
@@ -14,12 +16,12 @@
         <form method="POST" class="loginForm">
             <h2>Login</h2>
             <ul class="noBullet">
-                <li>
+                <li {{#if errors.email}}class="error"{{/if}}>
                     <label for="email">Email:</label>
-                    <input type="text" class="inputFields" id="email" name="email" {{#if error}} value="{{data.email}}"
+                    <input type="text" class="inputFields" id="email" name="email" {{#if errors.email}} value="{{data.email}}"
                         {{/if}} />
                 </li>
-                <li>
+                <li {{#if errors.password}}class="error"{{/if}}>
                     <label for="password">Password:</label>
                     <input type="password" class="inputFields" id="password" name="password" />
                 </li>

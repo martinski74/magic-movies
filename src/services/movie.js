@@ -49,7 +49,6 @@ async function updateMovie(movieId, movieData, userId) {
   await movie.save();
 
   return movie;
-
 }
 
 async function attachCastToMovie(movieId, castId) {
@@ -92,15 +91,15 @@ async function deleteMovie(movieId, userId) {
   const movie = await Movie.findById(movieId);
 
   if (!movie) {
-      throw new Error(`Movie ${movieId} not found`);
-    }
+    throw new Error(`Movie ${movieId} not found`);
+  }
 
   if (movie.author.toString() != userId) {
-      throw new Error(`Access denied`);
-    }
-
-    await Movie.findByIdAndDelete(movieId);
+    throw new Error(`Access denied`);
   }
+
+  await Movie.findByIdAndDelete(movieId);
+}
 
 module.exports = {
   getAllMovies,
@@ -109,5 +108,5 @@ module.exports = {
   attachCastToMovie,
   searchMovies,
   updateMovie,
-  deleteMovie
+  deleteMovie,
 };

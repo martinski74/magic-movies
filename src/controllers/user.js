@@ -1,59 +1,89 @@
+const { Router } = require('express');
+const { body, validationResult } = require('express-validator');
+const { isGuest } = require('../middlewares/guards');
+
 const { createToken } = require('../services/token');
 const { register, login } = require('../services/user');
+const { parseError } = require('../util');
 
-module.exports = {
-    registerGet: (req, res) => {
-        res.render('register');
-    },
+const userRouter = Router();
 
-    registerPost: async (req, res) => {
-        const { email, password, repass } = req.body;
-      
-        try {
-            if(!email || !password){
-                throw new Error('All fields are required!');
-            }
-            if(password != repass){
-                throw new Error('Passwords do not match!');
-            }
-            
-            const user  = await register(email, password);
-            const token = createToken(user);
+userRouter.get('/register', isGuest(), (req, res) => {
+  res.render('register');
+});
+userRouter.post(
+  '/register',
+  isGuest(),
+  body('email').trim().isEmail().withMessage('Please enter a valid email'),
+  body('password')
+    .trim()
+    .isAlphanumeric()
+    .isLength({ min: 6 })
+    .withMessage(
+      'Password must be at least 6 characters long and may contain only English letters and numbers'
+    ),
+  body('repass')
+    .trim()
+    .custom((value, { req }) => value == req.body.password)
+    .withMessage("Passwords don't match"),
+  async (req, res) => {
+    const { email, password } = req.body;
 
-            res.cookie('token', token, { httpOnly: true });
-            res.redirect('/');
-        } catch (err) {
-            console.log(err);
-            res.render('register', { data: {email}, error: err.message });
-        }
+    try {
+      const result = validationResult(req);
 
-       
-    },
-    loginGet: (req, res) => {
-        res.render('login');
-    },
+      if (result.errors.length) {
+        throw result.errors;
+      }
 
-    loginPost: async (req, res) => {
-        const { email, password } = req.body;
+      const user = await register(email, password);
+      const token = createToken(user);
 
-        try {
-            if(!email || !password){
-                throw new Error('All fields are required!');
-            }
-            const user = await login(email, password);  
-            const token = createToken(user);
-            res.cookie('token', token, { httpOnly: true });
-            res.redirect('/');
-        } catch (err) {
-            
-            res.render('login', { data: {email}, error: err.message });
-            return;
-        }
-        
-    },
-
-    logout: (req, res) => {
-        res.clearCookie('token');
-        res.redirect('/');
+      res.cookie('token', token, { httpOnly: true });
+      res.redirect('/');
+    } catch (err) {
+      res.render('register', {
+        data: { email },
+        errors: parseError(err).errors,
+      });
+      return;
     }
-}
+  }
+);
+userRouter.get('/login', isGuest(), (req, res) => {
+  res.render('login');
+});
+userRouter.post(
+  '/login',
+  isGuest(),
+  body('email').trim().isEmail().withMessage('Please enter a valid email'),
+  body('password')
+    .trim()
+    .isLength({ min: 6 })
+    .withMessage('Password must be at least 6 characters long'),
+  async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      const result = validationResult(req);
+
+      if (result.errors.length) {
+        throw result.errors;
+      }
+
+      const user = await login(email, password);
+      const token = createToken(user);
+      res.cookie('token', token, { httpOnly: true });
+      res.redirect('/');
+    } catch (err) {
+      res.render('login', { data: { email }, errors: parseError(err).errors });
+      return;
+    }
+  }
+);
+userRouter.get('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.redirect('/');
+});
+
+module.exports = { userRouter };
