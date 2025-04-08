@@ -5,7 +5,9 @@ require('../models/User');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.MONGODB_URI;
+
+
 
 async function configDatabase() {
   await mongoose.connect(connectionString);
