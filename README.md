@@ -2,4 +2,4 @@
 
 ## Node.js, Express.js, Handlebars, MongoDB
 
-### Open app here - https://magic-movies.onrender.com
+### Open app here - https://magic-movies.up.railway.app/
