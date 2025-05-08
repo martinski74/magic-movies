@@ -6,7 +6,7 @@ const { configRoutes } = require('./config/routes');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 async function start() {
   const app = express();
